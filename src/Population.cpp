@@ -6,18 +6,32 @@
 
 namespace BC {
 
-    Population::Population() {
-        for(auto member : m_population) {
-            Bubble bubble;
-            member = bubble;
+    Population::Population(const int SCREEN_HEIGHT, const int SCREEN_WIDTH)
+    : m_environment_height(SCREEN_HEIGHT), m_environment_width(SCREEN_WIDTH)
+    {
+        m_bubble_array.reserve(INITIAL_POPULATION_SIZE);
+        m_current_size = INITIAL_POPULATION_SIZE;
+
+        for(u_long index = 0; index < INITIAL_POPULATION_SIZE; index++) {
+            Bubble bubble(SCREEN_HEIGHT, SCREEN_WIDTH);
+            m_bubble_array.push_back(bubble);
         }
     }
 
     void Population::update_population() {
-        for(Bubble &bubble : m_population) {
-            bubble.update_health();
-            bubble.move_bubble();
+        for(u_long index = 0; index < m_current_size; index++) {
+
+            // Check bubble health & erase if dead
+            m_bubble_array[index].update_health();
+            if(m_bubble_array[index].m_dead) {
+                m_bubble_array.erase(m_bubble_array.begin() + index);
+                --m_current_size;
+                continue;
+            }
+
+            // Update bubble positions
+            m_bubble_array[index].move_bubble();
         }
     }
 
-}
+} /* Namespace BC */

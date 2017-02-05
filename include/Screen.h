@@ -9,14 +9,17 @@
 #include <stdio.h>
 #include <cmath>
 #include "../include/Population.h"
+#include "../include/FoodSupply.h"
 
 namespace BC {
 
     class Screen {
         public:
             Screen();
-            virtual ~Screen();
-            void update(const Population &);
+            ~Screen();
+            void update_screen(const Population &);
+            int height();
+            int width();
             bool quit_program();
 
         private:
@@ -25,10 +28,14 @@ namespace BC {
             void init_renderer();
             void init_texture();
             void init_buffer();
+            void update_texture();
+            void update_renderer();
+            void draw_population(const Population &);
+            //void draw_food();
 
         private:
-            const static int SCREEN_WIDTH  {1000};
-            const static int SCREEN_HEIGHT {800};
+            static const int SCREEN_HEIGHT {800};
+            static const int SCREEN_WIDTH {1000};
             SDL_Window *m_window {nullptr};
             SDL_Renderer *m_renderer {nullptr};
             SDL_Texture *m_texture {nullptr};

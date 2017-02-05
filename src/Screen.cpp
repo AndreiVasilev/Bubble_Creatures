@@ -90,16 +90,7 @@ namespace BC {
         memset(m_main_buffer, 0, SCREEN_HEIGHT * SCREEN_WIDTH * sizeof(Uint32));
     }
 
-    void Screen::update(const Population &population) {
-
-        for(int i = 0 ; i < population.m_population_size; i++) {
-            for (float theta = 0; theta < 2 * M_PI; theta += (1 / population.m_population[i].m_radius)) {
-                Uint32 x = static_cast<Uint32>(population.m_population[i].m_x_center + population.m_population[i].m_radius * cos(theta));
-                Uint32 y = static_cast<Uint32>(population.m_population[i].m_y_center + population.m_population[i].m_radius * sin(theta));
-                m_main_buffer[x + (y * SCREEN_WIDTH)] = population.m_population[i].m_color;
-            }
-        }
-
+    void Screen::update_texture() {
         // Updates the texture with new pixel data.
         SDL_UpdateTexture(
                 m_texture,                      // Texture to be updated.
@@ -107,7 +98,9 @@ namespace BC {
                 m_main_buffer,                  // Updated pixel data being sent to the texture.
                 SCREEN_WIDTH * sizeof(Uint32)   // Number of bytes in a row of pixel data.
         );
+    }
 
+    void Screen::update_renderer() {
         // Copies the newly updated texture into the renderer.
         SDL_RenderCopy(
                 m_renderer,    // The renderer to be updated.
@@ -123,6 +116,9 @@ namespace BC {
         memset(m_main_buffer, 0, SCREEN_HEIGHT * SCREEN_WIDTH * sizeof(Uint32));
     }
 
+    int Screen::height() { return SCREEN_HEIGHT; }
+    int Screen::width()  { return SCREEN_WIDTH;  }
+
     bool Screen::quit_program() {
         // Check for SDL events. If the window is closed, quit the program.
         while(SDL_PollEvent(&m_event)) {
@@ -130,6 +126,30 @@ namespace BC {
                 return true;
         }
         return false;
+    }
+
+    void Screen::draw_population(const Population &population) {
+
+        // Update main_buffer with color and position information of each bubble in population
+        for(u_long i = 0 ; i < population.m_current_size; i++) {
+
+            // Use polar coordinates to draw bubbles
+            for (float theta = 0; theta < 2 * M_PI; theta += (1 / population.m_bubble_array[i].m_radius)) {
+
+                const Bubble* bubble = &population.m_bubble_array[i];
+
+                Uint32 x = static_cast<Uint32>(bubble->m_x_center + bubble->m_radius * cos(theta));
+                Uint32 y = static_cast<Uint32>(bubble->m_y_center + bubble->m_radius * sin(theta));
+
+                m_main_buffer[x + (y * SCREEN_WIDTH)] = bubble->m_color;
+            }
+        }
+    }
+
+    void Screen::update_screen(const Population &population) {
+        draw_population(population);
+        update_texture();
+        update_renderer();
     }
 
 } /* Namespace BC */

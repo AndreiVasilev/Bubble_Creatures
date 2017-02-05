@@ -3,15 +3,16 @@
 //
 
 #include "../include/Bubble.h"
-#include <iostream>
 
 namespace BC {
 
-    Bubble::Bubble() {
+    Bubble::Bubble(const int SCREEN_HEIGHT, const int SCREEN_WIDTH)
+        : m_dead{false}, m_environment_height{SCREEN_HEIGHT}, m_environment_width(SCREEN_WIDTH)
+    {
         // Create random number device and distributions.
         std::random_device rd;
         std::uniform_int_distribution<int>     speed_dist{10, 20};
-        std::uniform_real_distribution<double> radius_dist{1.0, 40.0};
+        std::uniform_real_distribution<double> radius_dist{1.5, 40.0};
         std::uniform_real_distribution<double> health_dist{10, 100};
         std::uniform_real_distribution<double> position_dist{0.1, 0.9};
         std::uniform_real_distribution<double> angle_dist{0.0, 2 * M_PI};
@@ -29,8 +30,8 @@ namespace BC {
         m_y_vector = m_speed * sin(angle_dist(rd));
 
         // Generate random starting position
-        m_x_center = static_cast<int>(position_dist(rd) * SCREEN_WIDTH);
-        m_y_center = static_cast<int>(position_dist(rd) * SCREEN_HEIGHT);
+        m_x_center = static_cast<int>(position_dist(rd) * m_environment_width);
+        m_y_center = static_cast<int>(position_dist(rd) * m_environment_height);
 
         // Set initial color to green.
         set_color(0, 255, 0);
@@ -48,9 +49,9 @@ namespace BC {
 
     void Bubble::move_bubble() {
         // If bubble is near edge of screen, vector changes to opposite direction.
-        if(m_x_center > (SCREEN_WIDTH - m_radius - 10) || m_x_center < (m_radius + 10))
+        if(m_x_center > (m_environment_width - m_radius - 10) || m_x_center < (m_radius + 10))
             m_x_vector = -m_x_vector;
-        if(m_y_center > (SCREEN_HEIGHT - m_radius - 10) || m_y_center < (m_radius + 10))
+        if(m_y_center > (m_environment_height - m_radius - 10) || m_y_center < (m_radius + 10))
             m_y_vector = -m_y_vector;
 
         // Move bubble by vector amount
@@ -65,7 +66,7 @@ namespace BC {
 
         // Rate of health loss is directly proportional to speed * size
         if(chance < (m_speed * m_radius)) {
-            if(m_current_health > m_speed/1000) {
+            if(m_current_health > m_speed) {
                 m_current_health -= m_speed / 1000;
                 update_health_color();
             }
