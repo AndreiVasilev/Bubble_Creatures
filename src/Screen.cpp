@@ -131,23 +131,38 @@ namespace BC {
     void Screen::draw_population(const Population &population) {
 
         // Update main_buffer with color and position information of each bubble in population
-        for(u_long i = 0 ; i < population.m_current_size; i++) {
+        for(auto &bubble : population.m_bubble_array) {
 
             // Use polar coordinates to draw bubbles
-            for (float theta = 0; theta < 2 * M_PI; theta += (1 / population.m_bubble_array[i].m_radius)) {
+            for (float theta = 0; theta < 2 * M_PI; theta += (1 / bubble.radius())) {
 
-                const Bubble* bubble = &population.m_bubble_array[i];
+                Uint32 x = static_cast<Uint32>(bubble.x_center() + bubble.radius() * cos(theta));
+                Uint32 y = static_cast<Uint32>(bubble.y_center() + bubble.radius() * sin(theta));
 
-                Uint32 x = static_cast<Uint32>(bubble->m_x_center + bubble->m_radius * cos(theta));
-                Uint32 y = static_cast<Uint32>(bubble->m_y_center + bubble->m_radius * sin(theta));
-
-                m_main_buffer[x + (y * SCREEN_WIDTH)] = bubble->m_color;
+                m_main_buffer[x + (y * SCREEN_WIDTH)] = bubble.color();
             }
         }
     }
 
-    void Screen::update_screen(const Population &population) {
+    void Screen::draw_food(const FoodSupply &food_supply) {
+
+        // Update main_buffer with color and position information of each food in food supply
+        for(auto &food : food_supply.m_foods) {
+
+            // Draw a 7x7 square for each piece of food.
+            for (u_long y_inc = 0; y_inc < 7; y_inc++) {
+                for(u_long x_inc = 0; x_inc < 7; x_inc++) {
+                    Uint32 x = static_cast<Uint32>(food.x_coord() + x_inc);
+                    Uint32 y = static_cast<Uint32>(food.y_coord() + y_inc);
+                    m_main_buffer[x + (y * SCREEN_WIDTH)] = food.color();
+                }
+            }
+        }
+    }
+
+    void Screen::update_screen(const Population &population, const FoodSupply &food_supply) {
         draw_population(population);
+        draw_food(food_supply);
         update_texture();
         update_renderer();
     }

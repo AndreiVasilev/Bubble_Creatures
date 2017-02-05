@@ -6,13 +6,15 @@
 
 namespace BC {
 
-    Food::Food() : m_eaten{false} {
+    Food::Food(const int SCREEN_WIDTH, const int SCREEN_HEIGHT)
+        : m_environment_width{SCREEN_WIDTH}, m_environment_height{SCREEN_HEIGHT}, m_eaten{false}
+    {
         std::random_device rd;
         std::uniform_real_distribution<double> position_dist{0.1, 0.9};
 
-        // Generate random starting position
-        //m_x_coord = static_cast<int>(position_dist(rd) * SCREEN_WIDTH);
-        //m_y_coord = static_cast<int>(position_dist(rd) * SCREEN_HEIGHT);
+        // Generate random position for top left pixel of food
+        m_x_coord = static_cast<int>(position_dist(rd) * m_environment_width);
+        m_y_coord = static_cast<int>(position_dist(rd) * m_environment_height);
 
         set_color(0, 0, 255);
     }
@@ -26,6 +28,12 @@ namespace BC {
         m_color += blue;  m_color <<= 8;  // Blue
         m_color += 0xFF;                  // Alpha
     }
+
+    // Getters
+    Uint32 Food::color() const { return m_color; }
+    double Food::x_coord() const { return m_x_coord; }
+    double Food::y_coord() const { return m_y_coord; }
+    bool Food::eaten() const { return m_eaten; }
 
 
 } /* Namespace BC */

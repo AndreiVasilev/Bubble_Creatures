@@ -6,15 +6,22 @@
 #define BUBBLE_CREATURES_FOODSUPPLY_H
 
 #include "../include/Food.h"
+#include <vector>
 
 namespace BC {
 
     class FoodSupply {
-        private:
-            static const int MAX_FOOD_COUNT{10};
+        public:
+            FoodSupply(const int, const int);
+            void generate_food();
 
         public:
-            Food m_foods[MAX_FOOD_COUNT];
+            std::vector<Food> m_foods;
+
+        private:
+            static const int MAX_FOOD_COUNT{10};
+            int m_environment_width;
+            int m_environment_height;
 
     };
 

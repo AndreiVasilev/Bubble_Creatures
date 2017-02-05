@@ -6,8 +6,8 @@
 
 namespace BC {
 
-    Population::Population(const int SCREEN_HEIGHT, const int SCREEN_WIDTH)
-    : m_environment_height(SCREEN_HEIGHT), m_environment_width(SCREEN_WIDTH)
+    Population::Population(const int SCREEN_WIDTH, const int SCREEN_HEIGHT)
+    : m_environment_width{SCREEN_WIDTH}, m_environment_height{SCREEN_HEIGHT}
     {
         m_bubble_array.reserve(INITIAL_POPULATION_SIZE);
         m_current_size = INITIAL_POPULATION_SIZE;
@@ -23,7 +23,7 @@ namespace BC {
 
             // Check bubble health & erase if dead
             m_bubble_array[index].update_health();
-            if(m_bubble_array[index].m_dead) {
+            if(m_bubble_array[index].is_dead()) {
                 m_bubble_array.erase(m_bubble_array.begin() + index);
                 --m_current_size;
                 continue;
@@ -33,5 +33,8 @@ namespace BC {
             m_bubble_array[index].move_bubble();
         }
     }
+
+    u_long Population::current_size() const { return m_current_size; }
+
 
 } /* Namespace BC */

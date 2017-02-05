@@ -6,8 +6,8 @@
 
 namespace BC {
 
-    Bubble::Bubble(const int SCREEN_HEIGHT, const int SCREEN_WIDTH)
-        : m_dead{false}, m_environment_height{SCREEN_HEIGHT}, m_environment_width(SCREEN_WIDTH)
+    Bubble::Bubble(const int SCREEN_WIDTH, const int SCREEN_HEIGHT)
+        : m_dead{false}, m_environment_width{SCREEN_WIDTH}, m_environment_height{SCREEN_HEIGHT}
     {
         // Create random number device and distributions.
         std::random_device rd;
@@ -80,5 +80,12 @@ namespace BC {
         green *= m_current_health/m_max_health;
         set_color(0, green, 0);
     }
+
+    // Getters
+    Uint32 Bubble::color() const { return m_color; }
+    double Bubble::x_center() const { return m_x_center; }
+    double Bubble::y_center() const { return m_y_center; }
+    double Bubble::radius() const { return m_radius; }
+    bool Bubble::is_dead() const { return m_dead; }
 
 } /* Namespace BC */

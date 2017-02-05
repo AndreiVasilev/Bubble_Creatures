@@ -17,7 +17,7 @@ namespace BC {
         public:
             Screen();
             ~Screen();
-            void update_screen(const Population &);
+            void update_screen(const Population &, const FoodSupply &);
             int height();
             int width();
             bool quit_program();
@@ -31,7 +31,7 @@ namespace BC {
             void update_texture();
             void update_renderer();
             void draw_population(const Population &);
-            //void draw_food();
+            void draw_food(const FoodSupply &);
 
         private:
             static const int SCREEN_HEIGHT {800};
