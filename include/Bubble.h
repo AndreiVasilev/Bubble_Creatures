@@ -16,18 +16,22 @@ namespace BC {
             Bubble(const int, const int);
             void move_bubble();
             void update_health();
-            Uint32 color() const;
+            Uint32 fill_color() const;
+            Uint32 stroke_color() const;
             double x_center() const;
             double y_center() const;
             double radius() const;
             bool is_dead() const;
 
         private:
-            void set_color(Uint8, Uint8, Uint8);
-            void update_health_color();
+            Uint32 set_color(Uint8, Uint8, Uint8);
+            Uint32 update_health_color(Uint32);
 
         private:
-            Uint32 m_color;
+            Uint32 m_max_fill_color;
+            Uint32 m_max_stroke_color;
+            Uint32 m_fill_color;
+            Uint32 m_stroke_color;
             int m_environment_height;
             int m_environment_width;
             double m_x_center;

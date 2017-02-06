@@ -12,19 +12,17 @@ namespace BC {
 
     class Population {
         public:
-            std::vector<Bubble> m_bubble_array;
-
-        public:
             Population(const int, const int);
             void update_population();
-            u_long current_size() const;
+            const unsigned long current_size() const;
+            const Bubble& operator[](unsigned int index) const { return m_bubble_array[index]; }
 
         private:
-            static const unsigned MAX_POPULATION_SIZE    {200};
             static const unsigned INITIAL_POPULATION_SIZE {30};
+            static const unsigned MAX_POPULATION_SIZE     {50};
+            std::vector<Bubble> m_bubble_array;
             int m_environment_height;
             int m_environment_width;
-            u_long m_current_size;
 
     };
 

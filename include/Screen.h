@@ -17,10 +17,10 @@ namespace BC {
         public:
             Screen();
             ~Screen();
-            void update_screen(const Population &, const FoodSupply &);
             int height();
             int width();
             bool quit_program();
+            void update_screen(const Population &, const FoodSupply &);
 
         private:
             void init_SDL();
@@ -31,7 +31,9 @@ namespace BC {
             void update_texture();
             void update_renderer();
             void draw_population(const Population &);
-            void draw_food(const FoodSupply &);
+            void draw_bubble(const Bubble &);
+            void draw_food_supply(const FoodSupply &);
+            void draw_food(const Food &);
 
         private:
             static const int SCREEN_HEIGHT {800};

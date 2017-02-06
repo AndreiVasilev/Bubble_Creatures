@@ -16,7 +16,8 @@ namespace BC {
         m_x_coord = static_cast<int>(position_dist(rd) * m_environment_width);
         m_y_coord = static_cast<int>(position_dist(rd) * m_environment_height);
 
-        set_color(0, 0, 255);
+        // Set initial food color to orange.
+        set_color(255, 165, 0);
     }
 
     void Food::set_color(Uint8 red, Uint8 green, Uint8 blue) {

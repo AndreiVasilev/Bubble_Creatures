@@ -33,18 +33,21 @@ namespace BC {
         m_x_center = static_cast<int>(position_dist(rd) * m_environment_width);
         m_y_center = static_cast<int>(position_dist(rd) * m_environment_height);
 
-        // Set initial color to green.
-        set_color(0, 255, 0);
+        // Set fill color to light green, stroke color to dark green
+        m_fill_color = m_max_fill_color = set_color(0, 255, 25);
+        m_stroke_color = m_max_stroke_color = set_color(25, 150, 0);
     }
 
-    void Bubble::set_color(Uint8 red, Uint8 green, Uint8 blue) {
-        m_color = 0;
+    Uint32 Bubble::set_color(Uint8 red, Uint8 green, Uint8 blue) {
+        Uint32 color = 0;
 
         // Bit shift color values into place 8888-RGBA.
-        m_color += red;   m_color <<= 8;  // Red
-        m_color += green; m_color <<= 8;  // Green
-        m_color += blue;  m_color <<= 8;  // Blue
-        m_color += 0xFF;                  // Alpha
+        color += red;   color <<= 8;  // Red
+        color += green; color <<= 8;  // Green
+        color += blue;  color <<= 8;  // Blue
+        color += 0xFF;                // Alpha
+
+        return color;
     }
 
     void Bubble::move_bubble() {
@@ -60,29 +63,43 @@ namespace BC {
     }
 
     void Bubble::update_health() {
-        std::random_device rd;
-        std::uniform_real_distribution<double> chance_dist{-2.0, 200.0};
-        double chance {chance_dist(rd)};
 
-        // Rate of health loss is directly proportional to speed * size
-        if(chance < (m_speed * m_radius)) {
-            if(m_current_health > m_speed) {
-                m_current_health -= m_speed / 1000;
-                update_health_color();
+        // If health falls below 10%, the bubble dies
+        if(m_current_health > m_max_health * 0.1) {
+            std::random_device rd;
+            std::uniform_real_distribution<double> chance_dist{-2.0, 200.0};
+            double chance {chance_dist(rd)};
+
+            // Chance of health loss is directly proportional to speed * size,
+            // actual health loss is directly proportional to speed + size
+            if (chance < (m_speed * m_radius)) {
+                m_current_health -= m_speed/10 + m_radius/10;
+                m_fill_color = update_health_color(m_max_fill_color);
+                m_stroke_color = update_health_color(m_max_stroke_color);
             }
-            else m_dead = true;
         }
+        else {
+            m_dead = true;
+        }
+
     }
 
-    void Bubble::update_health_color() {
+    Uint32 Bubble::update_health_color(Uint32 color) {
+        Uint8 red   {static_cast<Uint8>(color >> 24)};
+        Uint8 green {static_cast<Uint8>(color >> 16)};
+        Uint8 blue  {static_cast<Uint8>(color >> 8)};
+
         // Update color based on the ratio of current_health/max_health
-        Uint8 green {static_cast<Uint8>(m_color >> 16)};
+        red *= m_current_health/m_max_health;
         green *= m_current_health/m_max_health;
-        set_color(0, green, 0);
+        blue *= m_current_health/m_max_health;
+
+        return set_color(red, green, blue);
     }
 
     // Getters
-    Uint32 Bubble::color() const { return m_color; }
+    Uint32 Bubble::fill_color() const { return m_fill_color; }
+    Uint32 Bubble::stroke_color() const { return m_stroke_color; }
     double Bubble::x_center() const { return m_x_center; }
     double Bubble::y_center() const { return m_y_center; }
     double Bubble::radius() const { return m_radius; }

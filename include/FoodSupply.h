@@ -14,12 +14,13 @@ namespace BC {
         public:
             FoodSupply(const int, const int);
             void generate_food();
-
-        public:
-            std::vector<Food> m_foods;
+            void update_food_supply();
+            const unsigned long current_size() const;
+            const Food& operator[](unsigned int index) const { return m_food_array[index]; }
 
         private:
             static const int MAX_FOOD_COUNT{10};
+            std::vector<Food> m_food_array;
             int m_environment_width;
             int m_environment_height;
 

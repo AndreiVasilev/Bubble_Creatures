@@ -7,7 +7,6 @@
 
 #include <SDL2/SDL.h>
 #include <random>
-//#include "../include/Screen.h"
 
 namespace BC {
 

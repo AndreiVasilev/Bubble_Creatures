@@ -7,7 +7,7 @@
 namespace BC {
 
     Screen::Screen() : m_window(nullptr), m_renderer(nullptr), m_texture(nullptr), m_main_buffer(nullptr){
-        // Initialize SDL functionality and create required SDL2 objects
+        // Initialize SDL functionality and create required SDL objects
         init_SDL();
         init_window();
         init_renderer();
@@ -24,7 +24,7 @@ namespace BC {
     }
 
     void Screen::init_SDL() {
-        // Initialize SDL library. Must be called before using any SDL2 functionality.
+        // Initialize SDL library. Must be called before using any SDL functionality.
         if(SDL_Init(SDL_INIT_VIDEO)) {
             fprintf(stderr, "Failed to initialize SDL2: %s\n", SDL_GetError());
             exit(EXIT_FAILURE);
@@ -116,9 +116,6 @@ namespace BC {
         memset(m_main_buffer, 0, SCREEN_HEIGHT * SCREEN_WIDTH * sizeof(Uint32));
     }
 
-    int Screen::height() { return SCREEN_HEIGHT; }
-    int Screen::width()  { return SCREEN_WIDTH;  }
-
     bool Screen::quit_program() {
         // Check for SDL events. If the window is closed, quit the program.
         while(SDL_PollEvent(&m_event)) {
@@ -129,42 +126,60 @@ namespace BC {
     }
 
     void Screen::draw_population(const Population &population) {
+        // Update main_buffer with position and color of each bubble in population
+        for(unsigned index = 0; index < population.current_size(); index++) {
+            draw_bubble(population[index]);
+        }
+    }
 
-        // Update main_buffer with color and position information of each bubble in population
-        for(auto &bubble : population.m_bubble_array) {
+    void Screen::draw_bubble(const Bubble &bubble) {
 
-            // Use polar coordinates to draw bubbles
-            for (float theta = 0; theta < 2 * M_PI; theta += (1 / bubble.radius())) {
+        // Use polar coordinates to draw bubbles
+        for (double theta = 0; theta <= M_PI; theta += (1 / bubble.radius())) {
 
-                Uint32 x = static_cast<Uint32>(bubble.x_center() + bubble.radius() * cos(theta));
-                Uint32 y = static_cast<Uint32>(bubble.y_center() + bubble.radius() * sin(theta));
+            // Calculate coordinates of bubble, neg_y is for the bottom half of each
+            Uint32 x = static_cast<Uint32>(bubble.x_center() + bubble.radius() * cos(theta));
+            Uint32 y = static_cast<Uint32>(bubble.y_center() + bubble.radius() * sin(theta));
+            Uint32 neg_y = static_cast<Uint32>(bubble.y_center() + bubble.radius() * sin(-theta));
 
-                m_main_buffer[x + (y * SCREEN_WIDTH)] = bubble.color();
+            // Fill bubble with color and stroke color
+            for (int i = y; i >= neg_y; i--) {
+                if (i < y - 1 && i > neg_y + 1)
+                    m_main_buffer[x + (i * SCREEN_WIDTH)] = bubble.fill_color();
+                else
+                    m_main_buffer[x + (i * SCREEN_WIDTH)] = bubble.stroke_color();
             }
         }
     }
 
-    void Screen::draw_food(const FoodSupply &food_supply) {
-
+    void Screen::draw_food_supply(const FoodSupply &food_supply) {
         // Update main_buffer with color and position information of each food in food supply
-        for(auto &food : food_supply.m_foods) {
+        for(unsigned index = 0; index < food_supply.current_size(); index++) {
+            draw_food(food_supply[index]);
+        }
+    }
 
-            // Draw a 7x7 square for each piece of food.
-            for (u_long y_inc = 0; y_inc < 7; y_inc++) {
-                for(u_long x_inc = 0; x_inc < 7; x_inc++) {
-                    Uint32 x = static_cast<Uint32>(food.x_coord() + x_inc);
-                    Uint32 y = static_cast<Uint32>(food.y_coord() + y_inc);
-                    m_main_buffer[x + (y * SCREEN_WIDTH)] = food.color();
-                }
+    void Screen::draw_food(const Food &food) {
+        // Draw a 7x7 square for each piece of food, coordinates
+        // start at the upper left hand corner of each piece.
+        for (unsigned y_inc = 0; y_inc < 7; y_inc++) {
+            for(unsigned x_inc = 0; x_inc < 7; x_inc++) {
+                Uint32 x = static_cast<Uint32>(food.x_coord() + x_inc);
+                Uint32 y = static_cast<Uint32>(food.y_coord() + y_inc);
+                m_main_buffer[x + (y * SCREEN_WIDTH)] = food.color();
             }
         }
     }
 
     void Screen::update_screen(const Population &population, const FoodSupply &food_supply) {
+        draw_food_supply(food_supply);
         draw_population(population);
-        draw_food(food_supply);
         update_texture();
         update_renderer();
     }
+
+    // Screen Getters
+    int Screen::height() { return SCREEN_HEIGHT; }
+    int Screen::width() { return SCREEN_WIDTH; }
 
 } /* Namespace BC */
