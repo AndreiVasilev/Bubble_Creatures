@@ -9,6 +9,7 @@ int main() {
     while(!screen.quit_program()) {
         screen.update_screen(population, food_supply);
         food_supply.generate_food();
+        population.check_for_food(food_supply);
         population.update_population();
         food_supply.update_food_supply();
     }

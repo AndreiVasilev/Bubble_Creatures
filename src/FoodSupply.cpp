@@ -32,6 +32,16 @@ namespace BC {
         }
     }
 
+    bool FoodSupply::if_in_proximity(const Bubble &bubble) {
+        for(auto &food : m_food_array) {
+            if(food.check_touching(bubble.radius(), bubble.x_center(), bubble.y_center())) {
+                food.set_eaten();
+                return true;
+            }
+        }
+    }
+
+
     // FoodSupply Getters
     const unsigned long FoodSupply::current_size() const { return m_food_array.size(); }
 
