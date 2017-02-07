@@ -36,6 +36,15 @@ namespace BC {
             exit(EXIT_SUCCESS);
     }
 
+    void Population::check_for_food(FoodSupply &food_supply) {
+        for(unsigned index = 0; index < m_bubble_array.size(); index++) {
+            Bubble &bubble = m_bubble_array[index];
+
+            if(food_supply.if_in_proximity(bubble))
+                bubble.fed();
+        }
+    }
+
     // Population Getters
     const unsigned long Population::current_size() const { return m_bubble_array.size(); }
 

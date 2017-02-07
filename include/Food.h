@@ -6,6 +6,8 @@
 #define BUBBLE_CREATURES_FOOD_H
 
 #include <SDL2/SDL.h>
+#include <cmath>
+#include <map>
 #include <random>
 
 namespace BC {
@@ -16,13 +18,18 @@ namespace BC {
             Uint32 color() const;
             double x_coord() const;
             double y_coord() const;
+            unsigned size() const;
+            bool check_touching(const double, const double, const double);
             bool eaten() const;
+            void set_eaten();
 
         private:
             void set_color(Uint8 red, Uint8 green, Uint8 blue);
 
         private:
             Uint32 m_color;
+            std::map<double, double> m_coordinates;
+            unsigned m_size;
             int m_environment_height;
             int m_environment_width;
             double m_x_coord;

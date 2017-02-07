@@ -6,6 +6,7 @@
 #define BUBBLE_CREATURES_POPULATION_H
 
 #include "../include/Bubble.h"
+#include "../include/FoodSupply.h"
 #include <vector>
 
 namespace BC {
@@ -14,8 +15,13 @@ namespace BC {
         public:
             Population(const int, const int);
             void update_population();
+            void check_for_food(FoodSupply &);
             const unsigned long current_size() const;
-            const Bubble& operator[](unsigned int index) const { return m_bubble_array[index]; }
+            const Bubble& operator[](unsigned long index) const { return m_bubble_array[index]; }
+
+        private:
+            //void update_healths();
+
 
         private:
             static const unsigned INITIAL_POPULATION_SIZE {30};

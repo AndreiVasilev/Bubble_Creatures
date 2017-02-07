@@ -11,7 +11,7 @@ namespace BC {
     {
         // Create random number device and distributions.
         std::random_device rd;
-        std::uniform_int_distribution<int>     speed_dist{10, 20};
+        std::uniform_int_distribution<int> speed_dist{10, 20};
         std::uniform_real_distribution<double> radius_dist{1.5, 40.0};
         std::uniform_real_distribution<double> health_dist{10, 100};
         std::uniform_real_distribution<double> position_dist{0.1, 0.9};
@@ -30,8 +30,8 @@ namespace BC {
         m_y_vector = m_speed * sin(angle_dist(rd));
 
         // Generate random starting position
-        m_x_center = static_cast<int>(position_dist(rd) * m_environment_width);
-        m_y_center = static_cast<int>(position_dist(rd) * m_environment_height);
+        m_x_center = position_dist(rd) * m_environment_width;
+        m_y_center = position_dist(rd) * m_environment_height;
 
         // Set fill color to light green, stroke color to dark green
         m_fill_color = m_max_fill_color = set_color(0, 255, 25);
@@ -63,6 +63,12 @@ namespace BC {
     }
 
     void Bubble::update_health() {
+
+        // Check if recently fed and adjust health if true
+        if(m_fed) {
+            m_current_health = m_max_health;
+            m_fed = false;
+        }
 
         // If health falls below 10%, the bubble dies
         if(m_current_health > m_max_health * 0.1) {
@@ -104,5 +110,8 @@ namespace BC {
     double Bubble::y_center() const { return m_y_center; }
     double Bubble::radius() const { return m_radius; }
     bool Bubble::is_dead() const { return m_dead; }
+
+    // Setters
+    void Bubble::fed() { m_fed = true; }
 
 } /* Namespace BC */

@@ -162,8 +162,10 @@ namespace BC {
     void Screen::draw_food(const Food &food) {
         // Draw a 7x7 square for each piece of food, coordinates
         // start at the upper left hand corner of each piece.
-        for (unsigned y_inc = 0; y_inc < 7; y_inc++) {
-            for(unsigned x_inc = 0; x_inc < 7; x_inc++) {
+        for (unsigned y_inc = 0; y_inc < food.size(); y_inc++) {
+
+            for(unsigned x_inc = 0; x_inc < food.size(); x_inc++) {
+
                 Uint32 x = static_cast<Uint32>(food.x_coord() + x_inc);
                 Uint32 y = static_cast<Uint32>(food.y_coord() + y_inc);
                 m_main_buffer[x + (y * SCREEN_WIDTH)] = food.color();
