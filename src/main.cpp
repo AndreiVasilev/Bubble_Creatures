@@ -14,5 +14,5 @@ int main() {
         food_supply.update_food_supply();
     }
 
-    return 0;
+    return EXIT_SUCCESS;
 }

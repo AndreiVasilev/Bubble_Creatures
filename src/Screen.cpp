@@ -127,7 +127,7 @@ namespace BC {
 
     void Screen::draw_population(const Population &population) {
         // Update main_buffer with position and color of each bubble in population
-        for(unsigned index = 0; index < population.current_size(); index++) {
+        for(int index = 0; index < population.current_size(); index++) {
             draw_bubble(population[index]);
         }
     }
@@ -154,17 +154,17 @@ namespace BC {
 
     void Screen::draw_food_supply(const FoodSupply &food_supply) {
         // Update main_buffer with color and position information of each food in food supply
-        for(unsigned index = 0; index < food_supply.current_size(); index++) {
+        for(int index = 0; index < food_supply.current_size(); index++) {
             draw_food(food_supply[index]);
         }
     }
 
     void Screen::draw_food(const Food &food) {
-        // Draw a 7x7 square for each piece of food, coordinates
+        // Draw a square for each piece of food, coordinates
         // start at the upper left hand corner of each piece.
-        for (unsigned y_inc = 0; y_inc < food.size(); y_inc++) {
+        for (int y_inc = 0; y_inc < food.size(); y_inc++) {
 
-            for(unsigned x_inc = 0; x_inc < food.size(); x_inc++) {
+            for(int x_inc = 0; x_inc < food.size(); x_inc++) {
 
                 Uint32 x = static_cast<Uint32>(food.x_coord() + x_inc);
                 Uint32 y = static_cast<Uint32>(food.y_coord() + y_inc);

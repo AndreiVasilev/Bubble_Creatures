@@ -25,10 +25,9 @@ namespace BC {
     }
 
     void FoodSupply::update_food_supply() {
-        for(unsigned index = 0; index < m_food_array.size(); index++) {
-            if(m_food_array[index].eaten()) {
+        for(int index = 0; index < m_food_array.size(); index++) {
+            if(m_food_array[index].eaten())
                 m_food_array.erase(m_food_array.begin() + index);
-            }
         }
     }
 
@@ -39,6 +38,7 @@ namespace BC {
                 return true;
             }
         }
+        return false;
     }
 
 

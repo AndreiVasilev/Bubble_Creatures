@@ -18,7 +18,7 @@ namespace BC {
     }
 
     void Population::update_population() {
-        for(unsigned index = 0; index < m_bubble_array.size(); index++) {
+        for(int index = 0; index < m_bubble_array.size(); index++) {
 
             // Check bubble health & erase if dead
             m_bubble_array[index].update_health();
@@ -29,6 +29,12 @@ namespace BC {
 
             // Update bubble positions
             m_bubble_array[index].move_bubble();
+
+            // Check if healthy and then chance at reproducing
+            if(m_bubble_array[index].is_healthy()) {
+                reproduce(m_bubble_array[index]);
+            }
+
         }
 
         // If all population dead, exit program.
@@ -37,11 +43,26 @@ namespace BC {
     }
 
     void Population::check_for_food(FoodSupply &food_supply) {
-        for(unsigned index = 0; index < m_bubble_array.size(); index++) {
+        for(int index = 0; index < m_bubble_array.size(); index++) {
             Bubble &bubble = m_bubble_array[index];
 
             if(food_supply.if_in_proximity(bubble))
-                bubble.fed();
+                bubble.set_fed();
+        }
+    }
+
+    void Population::reproduce(const Bubble &bubble) {
+        std::random_device rd;
+        std::uniform_real_distribution<double> chance_dist{0.0, 1.0};
+        double chance = chance_dist(rd);
+
+        // 0.05% chance to reproduce
+        if(chance <= 0.0005 && m_bubble_array.size() < MAX_POPULATION_SIZE) {
+            Bubble newBubble = bubble;
+            newBubble.set_center();
+            newBubble.set_vectors();
+            newBubble.set_healthy();
+            m_bubble_array.push_back(newBubble);
         }
     }
 

@@ -8,7 +8,7 @@ namespace BC {
 
     Food::Food(const int SCREEN_WIDTH, const int SCREEN_HEIGHT)
         : m_environment_width{SCREEN_WIDTH}, m_environment_height{SCREEN_HEIGHT},
-          m_eaten{false}, m_size{7}
+          m_eaten{false}, m_size{14}
     {
         std::random_device rd;
         std::uniform_real_distribution<double> position_dist{0.1, 0.9};
@@ -42,7 +42,7 @@ namespace BC {
         double shortest_dist = static_cast<double>(m_environment_width);
 
         // Check the distance between the bubble's center and each corner of the food
-        for(auto coords : m_coordinates) {
+        for(auto &coords : m_coordinates) {
             double dist = sqrt(pow(x - coords.first, 2) + pow(y - coords.second, 2));
             shortest_dist = std::min(dist, shortest_dist);
         }

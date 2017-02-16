@@ -20,12 +20,11 @@ namespace BC {
             const Bubble& operator[](unsigned long index) const { return m_bubble_array[index]; }
 
         private:
-            //void update_healths();
-
+            void reproduce(const Bubble &);
 
         private:
-            static const unsigned INITIAL_POPULATION_SIZE {30};
-            static const unsigned MAX_POPULATION_SIZE     {50};
+            static const unsigned INITIAL_POPULATION_SIZE {70};
+            static const unsigned MAX_POPULATION_SIZE     {100};
             std::vector<Bubble> m_bubble_array;
             int m_environment_height;
             int m_environment_width;

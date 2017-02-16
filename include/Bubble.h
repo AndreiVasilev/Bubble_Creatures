@@ -16,13 +16,17 @@ namespace BC {
             Bubble(const int, const int);
             void move_bubble();
             void update_health();
-            void fed();
+            void set_fed();
+            void set_center();
+            void set_vectors();
+            void set_healthy();
             Uint32 fill_color() const;
             Uint32 stroke_color() const;
             double x_center() const;
             double y_center() const;
             double radius() const;
             bool is_dead() const;
+            bool is_healthy() const;
 
         private:
             Uint32 set_color(Uint8, Uint8, Uint8);
@@ -43,7 +47,7 @@ namespace BC {
             double m_x_vector;
             double m_y_vector;
             double m_speed;
-            bool m_fed;
+            bool m_healthy;
             bool m_dead;
 
     };

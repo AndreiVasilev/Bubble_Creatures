@@ -7,7 +7,7 @@
 namespace BC {
 
     Bubble::Bubble(const int SCREEN_WIDTH, const int SCREEN_HEIGHT)
-        : m_dead{false}, m_environment_width{SCREEN_WIDTH}, m_environment_height{SCREEN_HEIGHT}
+        : m_dead{false}, m_healthy(false), m_environment_width{SCREEN_WIDTH}, m_environment_height{SCREEN_HEIGHT}
     {
         // Create random number device and distributions.
         std::random_device rd;
@@ -64,13 +64,12 @@ namespace BC {
 
     void Bubble::update_health() {
 
-        // Check if recently fed and adjust health if true
-        if(m_fed) {
-            m_current_health = m_max_health;
-            m_fed = false;
-        }
+        // If health falls below 80%, it's no longer healthy
+        if(m_current_health/m_max_health < 0.8)
+            m_healthy = false;
 
-        // If health falls below 10%, the bubble dies
+        // If health above 10%, there's a chance to lose health.
+        // If health falls below 10%, the bubble dies.
         if(m_current_health > m_max_health * 0.1) {
             std::random_device rd;
             std::uniform_real_distribution<double> chance_dist{-2.0, 200.0};
@@ -103,6 +102,7 @@ namespace BC {
         return set_color(red, green, blue);
     }
 
+
     // Getters
     Uint32 Bubble::fill_color() const { return m_fill_color; }
     Uint32 Bubble::stroke_color() const { return m_stroke_color; }
@@ -110,8 +110,29 @@ namespace BC {
     double Bubble::y_center() const { return m_y_center; }
     double Bubble::radius() const { return m_radius; }
     bool Bubble::is_dead() const { return m_dead; }
+    bool Bubble::is_healthy() const { return m_healthy; }
 
     // Setters
-    void Bubble::fed() { m_fed = true; }
+    void Bubble::set_fed() {
+        m_current_health = m_max_health;
+        m_healthy = true;
+    }
+
+    void Bubble::set_center() {
+        m_x_center = m_environment_width/2;
+        m_y_center = m_environment_height/2;
+    }
+
+    void Bubble::set_vectors() {
+        std::random_device rd;
+        std::uniform_real_distribution<double> rad_dist{0, 2*M_PI};
+        double rads = rad_dist(rd);
+        m_x_vector *= cos(rads);
+        m_y_vector *= sin(rads);
+    }
+
+    void Bubble::set_healthy() {
+        m_healthy = false;
+    }
 
 } /* Namespace BC */
