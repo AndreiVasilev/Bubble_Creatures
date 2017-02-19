@@ -118,17 +118,25 @@ namespace BC {
         m_healthy = true;
     }
 
-    void Bubble::set_center() {
-        m_x_center = m_environment_width/2;
-        m_y_center = m_environment_height/2;
-    }
-
-    void Bubble::set_vectors() {
+    void Bubble::set_characteristics() {
         std::random_device rd;
         std::uniform_real_distribution<double> rad_dist{0, 2*M_PI};
-        double rads = rad_dist(rd);
-        m_x_vector *= cos(rads);
-        m_y_vector *= sin(rads);
+        std::uniform_real_distribution<double> speed_dist{0.75, 2.0};
+        std::uniform_real_distribution<double> size_dist{0.75, 1.5};
+
+        // Refactor speed by some amount between 75% and 200%
+        m_speed = speed_dist(rd);
+
+        // Refactor vectors
+        m_x_vector = m_speed * cos(rad_dist(rd));
+        m_y_vector = m_speed * sin(rad_dist(rd));
+
+        // Refactor size by some amount between 75% and 150%
+        m_radius *= size_dist(rd);
+
+        // Position at center of screen
+        m_x_center = m_environment_width/2;
+        m_y_center = m_environment_height/2;
     }
 
     void Bubble::set_healthy() {

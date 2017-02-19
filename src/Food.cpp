@@ -39,17 +39,17 @@ namespace BC {
 
     bool Food::check_touching(const double radius, const double x, const double y) {
 
-        double shortest_dist = static_cast<double>(m_environment_width);
+        double shortest_dist = m_environment_width;
 
         // Check the distance between the bubble's center and each corner of the food
-        for(auto &coords : m_coordinates) {
-            double dist = sqrt(pow(x - coords.first, 2) + pow(y - coords.second, 2));
+        for(auto coords : m_coordinates) {
+            double dist = sqrt(pow(floor(x - coords.first), 2) + pow(floor(y - coords.second), 2));
             shortest_dist = std::min(dist, shortest_dist);
         }
 
         // If bubble's radius is larger than the distance from the bubble's center to
         // the food, that means the bubble is touching the food. Return true.
-        return (radius + 1) >= floor(shortest_dist);
+        return ceil(radius) >= floor(shortest_dist);
     }
 
 
@@ -57,7 +57,7 @@ namespace BC {
     Uint32 Food::color() const { return m_color; }
     double Food::x_coord() const { return m_x_coord; }
     double Food::y_coord() const { return m_y_coord; }
-    unsigned Food::size() const { return m_size; }
+    int Food::size() const { return m_size; }
     bool Food::eaten() const { return m_eaten; }
 
 

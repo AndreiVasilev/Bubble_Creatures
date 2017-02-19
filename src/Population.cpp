@@ -51,17 +51,16 @@ namespace BC {
         }
     }
 
-    void Population::reproduce(const Bubble &bubble) {
+    void Population::reproduce(Bubble &bubble) {
         std::random_device rd;
         std::uniform_real_distribution<double> chance_dist{0.0, 1.0};
         double chance = chance_dist(rd);
 
         // 0.05% chance to reproduce
         if(chance <= 0.0005 && m_bubble_array.size() < MAX_POPULATION_SIZE) {
+            bubble.set_healthy();
             Bubble newBubble = bubble;
-            newBubble.set_center();
-            newBubble.set_vectors();
-            newBubble.set_healthy();
+            newBubble.set_characteristics();
             m_bubble_array.push_back(newBubble);
         }
     }

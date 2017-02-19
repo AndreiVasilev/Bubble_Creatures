@@ -17,9 +17,8 @@ namespace BC {
             void move_bubble();
             void update_health();
             void set_fed();
-            void set_center();
-            void set_vectors();
             void set_healthy();
+            void set_characteristics();
             Uint32 fill_color() const;
             Uint32 stroke_color() const;
             double x_center() const;

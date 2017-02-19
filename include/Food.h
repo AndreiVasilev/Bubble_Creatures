@@ -18,7 +18,7 @@ namespace BC {
             Uint32 color() const;
             double x_coord() const;
             double y_coord() const;
-            unsigned size() const;
+            int size() const;
             bool check_touching(const double, const double, const double);
             bool eaten() const;
             void set_eaten();
@@ -31,7 +31,7 @@ namespace BC {
             Uint32 m_color;
             double m_x_coord;
             double m_y_coord;
-            unsigned m_size;
+            int m_size;
             int m_environment_height;
             int m_environment_width;
             bool m_eaten;
