@@ -6,6 +6,7 @@
 <img src="https://media.giphy.com/media/vOTsHHMobm6mk/giphy.gif" />
 
 <h2>Population after 30 min with food scarcity. Biodiversity is low.</h2>
+<img src="https://media.giphy.com/media/wvjFdpyTr7d96/giphy.gif" />
 
 <h2>Population after 30 min with extreme food surplus. Exponential growth.</h2>
-<img src="https://media.giphy.com/media/algcAytkay76w/giphy.gif" />
+<img src="https://media.giphy.com/media/lrNM8jWRHOPzW/giphy.gif" />
