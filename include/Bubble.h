@@ -17,15 +17,15 @@ namespace BC {
             void move_bubble();
             void update_health();
             void set_fed();
-            void set_healthy();
+            void set_healthy() { m_healthy = false; }
             void set_characteristics();
-            Uint32 fill_color() const;
-            Uint32 stroke_color() const;
-            double x_center() const;
-            double y_center() const;
-            double radius() const;
-            bool is_dead() const;
-            bool is_healthy() const;
+            Uint32 fill_color() const { return m_fill_color; }
+            Uint32 stroke_color() const { return m_stroke_color; }
+            double x_center() const { return m_x_center; }
+            double y_center() const { return m_y_center; }
+            double radius() const { return m_radius; }
+            bool is_dead() const { return m_dead; }
+            bool is_healthy() const { return m_healthy; }
 
         private:
             Uint32 set_color(Uint8, Uint8, Uint8);

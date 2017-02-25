@@ -15,13 +15,13 @@ namespace BC {
     class Food {
         public:
             Food(const int, const int);
-            Uint32 color() const;
-            double x_coord() const;
-            double y_coord() const;
-            int size() const;
+            Uint32 color() const { return m_color; }
+            double x_coord() const { return m_x_coord; }
+            double y_coord() const { return m_y_coord; }
+            int size() const { return m_size; }
             bool check_touching(const double, const double, const double);
-            bool eaten() const;
-            void set_eaten();
+            bool eaten() const { return m_eaten; }
+            void set_eaten() { m_eaten = true; }
 
         private:
             void set_color(Uint8 red, Uint8 green, Uint8 blue);

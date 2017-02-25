@@ -102,16 +102,6 @@ namespace BC {
         return set_color(red, green, blue);
     }
 
-
-    // Getters
-    Uint32 Bubble::fill_color() const { return m_fill_color; }
-    Uint32 Bubble::stroke_color() const { return m_stroke_color; }
-    double Bubble::x_center() const { return m_x_center; }
-    double Bubble::y_center() const { return m_y_center; }
-    double Bubble::radius() const { return m_radius; }
-    bool Bubble::is_dead() const { return m_dead; }
-    bool Bubble::is_healthy() const { return m_healthy; }
-
     // Setters
     void Bubble::set_fed() {
         m_current_health = m_max_health;
@@ -137,10 +127,6 @@ namespace BC {
         // Position at center of screen
         m_x_center = m_environment_width/2;
         m_y_center = m_environment_height/2;
-    }
-
-    void Bubble::set_healthy() {
-        m_healthy = false;
     }
 
 } /* Namespace BC */

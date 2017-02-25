@@ -180,8 +180,4 @@ namespace BC {
         update_renderer();
     }
 
-    // Screen Getters
-    int Screen::height() { return SCREEN_HEIGHT; }
-    int Screen::width() { return SCREEN_WIDTH; }
-
 } /* Namespace BC */

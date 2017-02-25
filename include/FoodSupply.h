@@ -17,7 +17,7 @@ namespace BC {
             void generate_food();
             void update_food_supply();
             bool if_in_proximity(const Bubble &);
-            const unsigned long current_size() const;
+            const unsigned long current_size() const { return m_food_array.size(); }
             const Food& operator[](unsigned long index) const { return m_food_array[index]; }
 
         private:

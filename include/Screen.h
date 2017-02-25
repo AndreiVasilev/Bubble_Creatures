@@ -17,8 +17,8 @@ namespace BC {
         public:
             Screen();
             ~Screen();
-            int height();
-            int width();
+            int height() const { return SCREEN_HEIGHT; }
+            int width() const { return SCREEN_WIDTH; }
             bool quit_program();
             void update_screen(const Population &, const FoodSupply &);
 

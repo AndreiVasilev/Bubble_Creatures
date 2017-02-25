@@ -53,16 +53,4 @@ namespace BC {
     }
 
 
-    // Food Getters
-    Uint32 Food::color() const { return m_color; }
-    double Food::x_coord() const { return m_x_coord; }
-    double Food::y_coord() const { return m_y_coord; }
-    int Food::size() const { return m_size; }
-    bool Food::eaten() const { return m_eaten; }
-
-
-    // Food Setters
-    void Food::set_eaten() { m_eaten = true; }
-
-
 } /* Namespace BC */
