@@ -173,11 +173,12 @@ namespace BC {
         }
     }
 
-    void Screen::update_screen(const Population &population, const FoodSupply &food_supply) {
+    Screen& Screen::update_screen(const Population &population, const FoodSupply &food_supply) {
         draw_food_supply(food_supply);
         draw_population(population);
         update_texture();
         update_renderer();
+        return *this;
     }
 
 } /* Namespace BC */

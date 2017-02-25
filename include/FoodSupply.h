@@ -14,8 +14,8 @@ namespace BC {
     class FoodSupply {
         public:
             FoodSupply(const int, const int);
-            void generate_food();
-            void update_food_supply();
+            FoodSupply& generate_food();
+            FoodSupply& update_food_supply();
             bool if_in_proximity(const Bubble &);
             const unsigned long current_size() const { return m_food_array.size(); }
             const Food& operator[](unsigned long index) const { return m_food_array[index]; }

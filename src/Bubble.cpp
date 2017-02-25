@@ -50,7 +50,7 @@ namespace BC {
         return color;
     }
 
-    void Bubble::move_bubble() {
+    Bubble& Bubble::move_bubble() {
         // If bubble is near edge of screen, vector changes to opposite direction.
         if(m_x_center > (m_environment_width - m_radius - 10) || m_x_center < (m_radius + 10))
             m_x_vector = -m_x_vector;
@@ -60,9 +60,11 @@ namespace BC {
         // Move bubble by vector amount
         m_x_center += m_x_vector;
         m_y_center += m_y_vector;
+
+        return *this;
     }
 
-    void Bubble::update_health() {
+    Bubble& Bubble::update_health() {
 
         // If health falls below 80%, it's no longer healthy
         if(m_current_health/m_max_health < 0.8)
@@ -87,6 +89,7 @@ namespace BC {
             m_dead = true;
         }
 
+        return *this;
     }
 
     Uint32 Bubble::update_health_color(Uint32 color) {
@@ -102,13 +105,7 @@ namespace BC {
         return set_color(red, green, blue);
     }
 
-    // Setters
-    void Bubble::set_fed() {
-        m_current_health = m_max_health;
-        m_healthy = true;
-    }
-
-    void Bubble::set_characteristics() {
+    Bubble& Bubble::set_characteristics() {
         std::random_device rd;
         std::uniform_real_distribution<double> rad_dist{0, 2*M_PI};
         std::uniform_real_distribution<double> speed_dist{0.75, 2.0};
@@ -127,6 +124,8 @@ namespace BC {
         // Position at center of screen
         m_x_center = m_environment_width/2;
         m_y_center = m_environment_height/2;
+
+        return *this;
     }
 
 } /* Namespace BC */

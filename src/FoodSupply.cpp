@@ -12,7 +12,7 @@ namespace BC {
         m_food_array.reserve(MAX_FOOD_COUNT);
     }
 
-    void FoodSupply::generate_food() {
+    FoodSupply& FoodSupply::generate_food() {
         std::random_device rd;
         std::uniform_real_distribution<double> chance_dist(0.0, 1.0);
         double chance = chance_dist(rd);
@@ -22,13 +22,16 @@ namespace BC {
             Food food(m_environment_width, m_environment_height);
             m_food_array.push_back(food);
         }
+
+        return *this;
     }
 
-    void FoodSupply::update_food_supply() {
+    FoodSupply& FoodSupply::update_food_supply() {
         for(int index = 0; index < m_food_array.size(); index++) {
             if(m_food_array[index].eaten())
                 m_food_array.erase(m_food_array.begin() + index);
         }
+        return *this;
     }
 
     bool FoodSupply::if_in_proximity(const Bubble &bubble) {

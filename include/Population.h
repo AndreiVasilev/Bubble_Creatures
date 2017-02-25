@@ -14,8 +14,8 @@ namespace BC {
     class Population {
         public:
             Population(const int, const int);
-            void update_population();
-            void check_for_food(FoodSupply &);
+            Population& update_population();
+            Population& check_for_food(FoodSupply &);
             const unsigned long current_size() const { return m_bubble_array.size(); }
             const Bubble& operator[](unsigned long index) const { return m_bubble_array[index]; }
 

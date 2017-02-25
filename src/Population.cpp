@@ -17,7 +17,7 @@ namespace BC {
         }
     }
 
-    void Population::update_population() {
+    Population& Population::update_population() {
         for(int index = 0; index < m_bubble_array.size(); index++) {
 
             // Check bubble health & erase if dead
@@ -34,21 +34,23 @@ namespace BC {
             if(m_bubble_array[index].is_healthy()) {
                 reproduce(m_bubble_array[index]);
             }
-
         }
 
         // If all population dead, exit program.
         if(!m_bubble_array.size())
             exit(EXIT_SUCCESS);
+
+        return *this;
     }
 
-    void Population::check_for_food(FoodSupply &food_supply) {
+    Population& Population::check_for_food(FoodSupply &food_supply) {
         for(int index = 0; index < m_bubble_array.size(); index++) {
             Bubble &bubble = m_bubble_array[index];
 
             if(food_supply.if_in_proximity(bubble))
                 bubble.set_fed();
         }
+        return *this;
     }
 
     void Population::reproduce(Bubble &bubble) {

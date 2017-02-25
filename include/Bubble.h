@@ -14,11 +14,11 @@ namespace BC {
     class Bubble {
         public:
             Bubble(const int, const int);
-            void move_bubble();
-            void update_health();
-            void set_fed();
-            void set_healthy() { m_healthy = false; }
-            void set_characteristics();
+            Bubble& move_bubble();
+            Bubble& update_health();
+            Bubble& set_characteristics();
+            Bubble& set_fed();
+            Bubble& set_healthy() { m_healthy = false; return *this; }
             Uint32 fill_color() const { return m_fill_color; }
             Uint32 stroke_color() const { return m_stroke_color; }
             double x_center() const { return m_x_center; }
@@ -50,6 +50,13 @@ namespace BC {
             bool m_dead;
 
     };
+
+    // Setters
+    inline Bubble& Bubble::set_fed() {
+        m_current_health = m_max_health;
+        m_healthy = true;
+        return *this;
+    }
 
 } /* Namespace BC */
 
