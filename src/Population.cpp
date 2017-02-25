@@ -57,7 +57,7 @@ namespace BC {
         double chance = chance_dist(rd);
 
         // 0.05% chance to reproduce
-        if(chance <= 0.0005 && m_bubble_array.size() < MAX_POPULATION_SIZE) {
+        if(chance <= 0.0005 && m_bubble_array.size() <= MAX_POPULATION_SIZE) {
             bubble.set_healthy();
             Bubble newBubble = bubble;
             newBubble.set_characteristics();
