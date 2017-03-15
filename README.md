@@ -1,4 +1,5 @@
 #Bubble Creatures - Simulated Evolution Environment
+
 <h2>Initial Population</h2>
 <img src="https://media.giphy.com/media/GqHPOCoQ428BW/giphy.gif" />
 
